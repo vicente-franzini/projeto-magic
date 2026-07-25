@@ -1,31 +1,18 @@
 namespace Magic {
 
-    class Carta : IModel {
+    class Carta {
+        public enum Cores {
+            INCOLOR, BRANCO, AZUL, PRETO, VERMELHO, VERDE
+        };
 
-        string path = Environment.SpecialFolder.Desktop.ToString() + "carta.db";
+        public string? Nome { get; set; }
+        public string? Tipo { get; set; }
+        public string? Descricao { get; set; }
+        public string? CustoMana { get; set; }
+        public float   ValorMana { get; set; }
+        public Cores   Cor { get; set; }
 
-        public Carta(string? _path) {
-            if(_path != null) path = _path;
+        public float?  Preco { get; set; }
+    }
 
-            if(!File.Exists(path)) File.Create(path);
-        }
-        public bool Create(string key, string value) {
-            
-        }
-        
-        public string Read(string key) {
-
-        }
-        public string[] Read() {
-
-        }
-
-        public bool Update(string key, string value) {
-
-        }
-
-        public bool Delete(string key) {
-
-        }
-    };
 }
