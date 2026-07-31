@@ -13,15 +13,15 @@ namespace Magic {
         public CartaBase() {
             if(!File.Exists(path)) File.Create(path).Close();
         }
-        public bool Create(string key, string value) {
+        public bool Create(string values) {
             try {
                 foreach(string s in File.ReadAllText(path).Split('\n')) {
-                    if(s.Split('§')[0] == key) return false;
+                    if(s.Split('§')[0] == values.Split('§')[0]) return false;
                 }
 
                 File.AppendAllText(
                     path,
-                    key.Replace('§',' ') + '§' + value.Replace('§',' ') + '\n'
+                    values + '\n'
                 );
 
                 return true;
@@ -31,42 +31,51 @@ namespace Magic {
             }
         }
         
-        public string Read(string key) {
+        public Carta? Read(string key) {
             try {
+                Carta c = new Carta();
+
                 foreach(string s in File.ReadAllText(path).Split('\n')) {
-                    if(s.Split('§')[0] == key) return s.Split('§')[1];
+                    if(s.Split('§')[0] == key){
+                        c.InputValuesString(s);
+                        return c;
+                    }
                 }
 
-                return "";
+                return;
             } catch (Exception e) {
                 Console.WriteLine(e);
-                return "";
+                return;
             }
         }
-        public string[] Read() {
+        public Carta[] Read() {
             try {
-                List<string> reply = new List<string>();
+                string[] db = File.ReadAllText(path).Split('\n');
+                Carta[] cartas = new Carta[db.Length];
+                int i = 0;
 
-                foreach(string s in File.ReadAllText(path).Split('\n')) {
-                    if(s.Split('§').Length > 1)
-                        reply.Add(s.Split('§').Last());
+                foreach(string s in db) {
+                    if(s.Split('§').Length > 1){
+                        cartas[0].InputValuesString(s);
+                        i++;
+                    }
                 }
 
-                return reply.ToArray();
+                return cartas;
             } catch (Exception e) {
                 Console.WriteLine(e);
                 return [];
             }
         }
 
-        public bool Update(string key, string value) {
+        public bool Update(string values) {
             try {
                 string[] db = File.ReadAllText(path).Split('\n');
 
                 for(int i = 0; i < db.Length; i++) {
-                    if(db[i].Split('§')[0] != key) continue;
+                    if(db[i].Split('§')[0] != values.Split('§')[0]) continue;
 
-                    db[i] = key + '§' + value.Replace('§', ' ');
+                    db[i] = values;
                     File.WriteAllText(path, String.Join('\n', db));
                     return true;
                 }
