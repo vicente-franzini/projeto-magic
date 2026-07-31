@@ -88,7 +88,7 @@ namespace Magic {
                 return;
             }
 
-            view.MostrarLista(list);
+            view.MostrarLista(list, true);
             view.Pause();
         }
     }

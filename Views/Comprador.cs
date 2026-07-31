@@ -62,14 +62,19 @@ namespace Magic {
             );
         }
 
-        public void MostrarLista(string[] cartas)
+        public void MostrarLista(string[] cartas, bool mostrarGasto = false)
         {
+            float gastoTotal = 0;
+
             foreach(string carta_s in cartas) {
                 Carta? carta = JsonSerializer.Deserialize<Carta>(carta_s);
                 if(carta == null) continue;
 
                 MostrarCarta(carta);
+                gastoTotal += carta.Preco ?? 0;
             }
+
+            if(mostrarGasto) Console.WriteLine($"Voce ja gastou ${gastoTotal} em {cartas.Length} cartas.");
         }
 
         public bool ComprarCarta() {
