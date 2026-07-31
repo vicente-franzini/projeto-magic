@@ -2,7 +2,7 @@ namespace Magic {
 
     class Compradas : IModel {
 
-        private string path = Environment.SpecialFolder.Desktop.ToString() + "Compradas.db";
+        private string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Compradas.db");
 
         public Compradas(string? _path) {
             path = _path ?? path;

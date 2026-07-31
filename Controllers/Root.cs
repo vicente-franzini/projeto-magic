@@ -2,8 +2,10 @@
 
 namespace Magic {
     class RootController : IController {
+
+        private RootView view = new RootView();
+
         public void Run() {
-            RootView view = new RootView();
             RootView.UserOptions option = view.GetUserAccount();
 
             switch(option) {

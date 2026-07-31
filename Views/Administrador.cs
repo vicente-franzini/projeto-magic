@@ -8,8 +8,8 @@ namespace Magic{
             OperationOptions finalOption = OperationOptions.NULL;
             
             while(finalOption < OperationOptions.CREATE || finalOption > OperationOptions.EXIT) {
+                MostrarCabecalho("Escolha uma operacao");
                 Console.Write(
-                    "[Escolha uma operação]\n" +
                     " 1 - Cadastrar nova carta\n" +
                     " 2 - Pesquisar por uma carta\n" +
                     " 3 - Listar todas as cartas\n" +
@@ -35,6 +35,7 @@ namespace Magic{
         }
 
         public Carta GetCardValues(){
+            MostrarCabecalho("Digite os valores da carta");
             Carta c = new Carta();
 
             Console.Write("Insira o nome da carta:\n>");
@@ -101,5 +102,10 @@ namespace Magic{
                     $"Preco: ${carta.Preco}\n\n"
                 );
         }
+
+        public void MostrarCabecalho(string title) {
+			Console.Clear();
+			Console.WriteLine("=== " + title + " ===\n");
+		}
     } 
 }

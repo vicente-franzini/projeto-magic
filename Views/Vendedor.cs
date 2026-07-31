@@ -10,7 +10,7 @@ namespace Magic {
         };
         public MenuOpcoes Menu()
         {
-            Console.WriteLine("\n===== MENU DO VENDEDOR =====");
+            MostrarCabecalho("Menu do Vendedor");
             Console.WriteLine("1 - Colocar carta à venda");
             Console.WriteLine("2 - Listar minhas cartas");
             Console.WriteLine("3 - Remover carta");
@@ -50,9 +50,14 @@ namespace Magic {
             Console.WriteLine(mensagem);
         }
 
+        public void MostrarCabecalho(string title) {
+			Console.Clear();
+			Console.WriteLine("=== " + title + " ===\n");
+		}
+
         public void MostrarLista(string[] cartas)
         {
-            Console.WriteLine("\n=== Cartas anunciadas ===");
+            MostrarCabecalho("Cartas anunciadas");
 
             foreach(string carta_s in cartas) {
                 Carta? carta = JsonSerializer.Deserialize<Carta>(carta_s);

@@ -2,7 +2,7 @@ namespace Magic {
 
     class Estoque : IModel {
 
-        private string path = Environment.SpecialFolder.Desktop.ToString() + "Estoque.db";
+        private string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Estoque.db");
 
         public Estoque(string _path) {
             path = _path;

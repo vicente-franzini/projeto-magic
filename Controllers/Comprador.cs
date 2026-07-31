@@ -1,7 +1,5 @@
 using System.Text.Json;
 
-using System.Text.Json;
-
 namespace Magic {
     class CompradorController : IController {
         private Estoque estoque = new Estoque();

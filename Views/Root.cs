@@ -6,12 +6,17 @@ namespace Magic {
             NULL, ADMINISTRADOR, VENDEDOR, COMPRADOR
         };
 
+        public void MostrarCabecalho(string title) {
+			Console.Clear();
+			Console.WriteLine("=== " + title + " ===\n");
+		}
+
         public UserOptions GetUserAccount() {
             UserOptions finalOption = UserOptions.NULL;
 
             while(finalOption < UserOptions.ADMINISTRADOR || finalOption > UserOptions.COMPRADOR) {
+                MostrarCabecalho("Escolha a sua conta");
                 Console.Write(
-                    "[Escolha a sua conta]\n" +
                     " 1 - Administrador (modifique as cartas do sistema)\n" +
                     " 2 - Vendedor (coloque cartas a venda)\n" +
                     " 3 - Comprador (compre cartas que estão a venda)\n\n" +

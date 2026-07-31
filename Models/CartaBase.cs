@@ -2,7 +2,7 @@ namespace Magic {
 
     class CartaBase : IModel {
 
-        private string path = Environment.SpecialFolder.Desktop.ToString() + "CartaBase.db";
+        private string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "CartaBase.db");
 
         public CartaBase(string? _path) {
             path = _path ?? path;

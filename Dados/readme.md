@@ -1,1 +1,0 @@
-# Aqui estarão armazenados os arquivos de banco de dados.
