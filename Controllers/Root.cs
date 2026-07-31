@@ -10,7 +10,7 @@ namespace Magic {
 
             switch(option) {
                 default:
-                    Console.WriteLine("Houve algum erro na seleção de usuários! Reiniciando.");
+                    view.MostrarMensagem("Houve algum erro na seleção de usuários! Reiniciando.");
                     Run();
                     break;
                 case RootView.UserOptions.ADMINISTRADOR:

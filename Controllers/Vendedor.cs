@@ -1,4 +1,3 @@
-
 using System.Text.Json;
 
 namespace Magic {
@@ -46,6 +45,7 @@ namespace Magic {
             // Procura carta no banco de dados
             string? cartaJson = cartaBase.Read(nome);
 
+            // Verifica se a carta existe no sistema
             if (string.IsNullOrWhiteSpace(cartaJson))
             {
                 view.MostrarMensagem("Essa carta nao existe no sistema!");
@@ -94,21 +94,35 @@ namespace Magic {
         }
 
         private void EditarCarta() {
+            // Lê o ID informado pelo vendedor
             string id = view.LerIdCarta();
+
+            // Procura carta no estoque
             string? cartaJSON = estoque.Read(id);
 
-            if(cartaJSON == null) {
+            // Verifica se a carta existe
+            if(string.IsNullOrWhiteSpace(cartaJSON)) {
                 view.MostrarMensagem("Carta nao encontrada!");
                 view.Pause();
                 return;
             }
 
             Carta? carta = JsonSerializer.Deserialize<Carta>(cartaJSON);
-            if(carta == null) return;
 
+            if(carta == null)
+            {
+                view.MostrarMensagem("Erro ao carregar a carta!");
+                view.Pause();
+                return;
+            }
+
+            // Solicita novo preço
             float preco = view.LerNovoPreco(carta.Preco ?? 0);
+
+            // Atualiza preço
             carta.Preco = preco;
 
+            // Salva a carta no banco novamente
             if(estoque.Update(id, JsonSerializer.Serialize<Carta>(carta)))
                 view.MostrarMensagem("Carta atualizada com sucesso!");
             else

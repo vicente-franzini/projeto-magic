@@ -25,8 +25,8 @@ namespace Magic {
                 );
 
                 return true;
-            } catch (Exception e) {
-                Console.WriteLine(e);
+            } catch {
+                
                 return false;
             }
         }
@@ -38,8 +38,8 @@ namespace Magic {
                 }
 
                 return "";
-            } catch (Exception e) {
-                Console.WriteLine(e);
+            } catch {
+                
                 return "";
             }
         }
@@ -53,8 +53,8 @@ namespace Magic {
                 }
 
                 return reply.ToArray();
-            } catch (Exception e) {
-                Console.WriteLine(e);
+            } catch {
+                
                 return [];
             }
         }
@@ -72,8 +72,8 @@ namespace Magic {
                 }
 
                 return false;
-            } catch (Exception e) {
-                Console.WriteLine(e);
+            } catch {
+                
                 return false;
             }
         }
@@ -93,8 +93,8 @@ namespace Magic {
 
                 File.WriteAllText(path, String.Join('\n', db));
                 return diff != 0;
-            } catch (Exception e) {
-                Console.WriteLine(e);
+            } catch {
+                
                 return false;
             }
         }

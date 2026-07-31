@@ -11,6 +11,10 @@ namespace Magic {
 			Console.WriteLine("=== " + title + " ===\n");
 		}
 
+        public void MostrarMensagem(string mensagem) {
+            Console.WriteLine(mensagem);
+        }
+
         public UserOptions GetUserAccount() {
             UserOptions finalOption = UserOptions.NULL;
 

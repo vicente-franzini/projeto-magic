@@ -32,7 +32,7 @@ namespace Magic {
 
             var entries = estoque.Read();
             if(entries.Length == 0) {
-                Console.WriteLine("Nenhuma carta no estoque.");
+                view.MostrarMensagem("Nenhuma carta no estoque.");
                 view.Pause();
                 return;
             }
@@ -86,7 +86,7 @@ namespace Magic {
 
             var list = compradas.Read();
             if(list.Length == 0) {
-                Console.WriteLine("Nenhuma carta comprada.");
+                view.MostrarMensagem("Nenhuma carta comprada.");
                 view.Pause();
                 return;
             }
