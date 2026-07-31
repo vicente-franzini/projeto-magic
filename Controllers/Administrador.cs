@@ -83,7 +83,18 @@ namespace Magic {
         }
 
         public void UpdateCard(){
-            Carta c = view.GetCardValues();
+            string? nome = view.GetCardName();
+            if(String.IsNullOrWhiteSpace(nome)) {
+                view.MostrarMensagem("Digite um nome!");
+                view.Pause();
+                return;
+            } else if(String.IsNullOrWhiteSpace(CardDatabase.Read(nome))) {
+                view.MostrarMensagem("Essa carta nao existe!");
+                view.Pause();
+                return;
+            }
+
+            Carta c = view.GetCardValues(nome);
             CardDatabase.Update(c.Nome!, JsonSerializer.Serialize<Carta>(c));
             view.Pause();
         }
