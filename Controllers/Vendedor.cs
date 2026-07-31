@@ -9,7 +9,7 @@ namespace Magic {
         private CartaBase cartaBase = new CartaBase();
     
         public void Run() {
-            int opcao;
+            VendedorView.MenuOpcoes opcao;
 
             do
             {
@@ -17,20 +17,25 @@ namespace Magic {
 
                 switch (opcao)
                 {
-                    case 1:
+                    default: break;
+                    case VendedorView.MenuOpcoes.VENDA:
                         AdicionarCarta();
                         break;
 
-                    case 2:
+                    case VendedorView.MenuOpcoes.LISTAR:
                         ListarCartas();
                         break;
 
-                    case 3:
+                    case VendedorView.MenuOpcoes.REMOVER:
                         RemoverCarta();
+                        break;
+
+                    case VendedorView.MenuOpcoes.EDITAR:
+                        EditarCarta();
                         break;
                 }
 
-            } while (opcao != 0);
+            } while (opcao != VendedorView.MenuOpcoes.VOLTAR);
         }
 
         private void AdicionarCarta()
@@ -52,16 +57,17 @@ namespace Magic {
 
             // Coloca a carta a venda
 
-            Carta carta = new Carta();
+            Carta carta = JsonSerializer.Deserialize<Carta>(cartaJson) ?? new Carta();
 
             carta.Nome = nome;
             carta.Preco = preco;
             
             //Cria um ID para a carta a venda
-            string id = Guid.NewGuid().ToString();
-            string json = JsonSerializer.Serialize(carta);
+            carta.GID = Guid.NewGuid().ToString();
 
-            estoque.Create(id, json);
+            string json = JsonSerializer.Serialize<Carta>(carta);
+
+            estoque.Create(carta.GID, json);
         }
 
         private void ListarCartas()
@@ -81,6 +87,27 @@ namespace Magic {
                 view.MostrarMensagem("Carta removida do mercado!");
             else
                 view.MostrarMensagem("Carta nao encontrada!");
+        }
+
+        private void EditarCarta() {
+            string id = view.LerIdCarta();
+            string? cartaJSON = estoque.Read(id);
+
+            if(cartaJSON == null) {
+                view.MostrarMensagem("Carta nao encontrada!");
+                return;
+            }
+
+            Carta? carta = JsonSerializer.Deserialize<Carta>(cartaJSON);
+            if(carta == null) return;
+
+            float preco = view.LerNovoPreco(carta.Preco ?? 0);
+            carta.Preco = preco;
+
+            if(estoque.Update(id, JsonSerializer.Serialize<Carta>(carta)))
+                view.MostrarMensagem("Carta atualizada com sucesso!");
+            else
+                view.MostrarMensagem("Houve um erro na atualizacao da carta.");
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Magic {
         public float?  Resistencia { get; set; }
         public Cores   Cor { get; set; }
 
+        public string? GID { get; set; }
         public float?  Preco { get; set; }
     }
 

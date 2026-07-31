@@ -1,8 +1,14 @@
+using System.Text.Json;
+
 namespace Magic {
 
     class VendedorView
     {
-        public int Menu()
+
+        public enum MenuOpcoes {
+            VOLTAR, VENDA, LISTAR, REMOVER, EDITAR
+        };
+        public MenuOpcoes Menu()
         {
             Console.WriteLine("\n===== MENU DO VENDEDOR =====");
             Console.WriteLine("1 - Colocar carta à venda");
@@ -12,7 +18,7 @@ namespace Magic {
 
             Console.Write("Opção: ");
 
-            return Convert.ToInt32(Console.ReadLine());
+            return (MenuOpcoes) Convert.ToInt32(Console.ReadLine());
         }
 
         public string LerNomeCarta()
@@ -24,6 +30,12 @@ namespace Magic {
         public float LerPreco()
         {
             Console.Write("Preço: ");
+            return Convert.ToSingle(Console.ReadLine());
+        }
+
+        public float LerNovoPreco(float precoAtual)
+        {
+            Console.Write($"Preco atual {precoAtual}\nPreco novo: ");
             return Convert.ToSingle(Console.ReadLine());
         }
 
@@ -42,8 +54,27 @@ namespace Magic {
         {
             Console.WriteLine("\n=== Cartas anunciadas ===");
 
-            foreach(string carta in cartas)
-                Console.WriteLine(carta);
+            foreach(string carta_s in cartas) {
+                Carta? carta = JsonSerializer.Deserialize<Carta>(carta_s);
+                if(carta == null) continue;
+
+                if(carta.Poder != null && carta.Resistencia != null)
+                    Console.WriteLine(
+                        $"{carta.Nome} ({carta.GID})\n" +
+                        $"{Enum.GetName<Carta.Cores>(carta.Cor)} - {carta.ValorMana} {carta.CustoMana}\n" +
+                        $"{carta.Tipo}" + 
+                        $"{carta.Descricao} -- ({carta.Poder}/{carta.Resistencia})\n" +
+                        $"Preco: ${carta.Preco}\n\n"
+                    );
+                else
+                    Console.WriteLine(
+                        $"{carta.Nome} ({carta.GID})\n" +
+                        $"{Enum.GetName<Carta.Cores>(carta.Cor)} - {carta.ValorMana} {carta.CustoMana}\n" +
+                        $"{carta.Tipo}" + 
+                        $"{carta.Descricao}\n" +
+                        $"Preco: ${carta.Preco}\n\n"
+                    );
+            }
         }
     }
 
