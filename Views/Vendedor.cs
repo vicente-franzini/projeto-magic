@@ -14,6 +14,7 @@ namespace Magic {
             Console.WriteLine(" 1 - Colocar carta à venda");
             Console.WriteLine(" 2 - Listar minhas cartas");
             Console.WriteLine(" 3 - Remover carta");
+            Console.WriteLine(" 4 - Editar carta");
             Console.WriteLine(" 0 - Sair\n");
 
             Console.Write("> ");
