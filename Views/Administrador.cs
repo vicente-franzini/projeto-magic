@@ -8,7 +8,7 @@ namespace Magic{
             OperationOptions finalOption = OperationOptions.NULL;
             
             while(finalOption < OperationOptions.CREATE || finalOption > OperationOptions.EXIT) {
-                MostrarCabecalho("Escolha uma operacao");
+                MostrarCabecalho("Administrador");
                 Console.Write(
                     " 1 - Cadastrar nova carta\n" +
                     " 2 - Pesquisar por uma carta\n" +
@@ -38,36 +38,36 @@ namespace Magic{
             MostrarCabecalho("Digite os valores da carta");
             Carta c = new Carta();
 
-            Console.Write("Insira o nome da carta:\n>");
+            Console.Write("Insira o nome da carta:\n> ");
             c.Nome = Console.ReadLine() ?? "N/D";
 
-            Console.Write("Insira o tipo da carta:\n>");
+            Console.Write("Insira o tipo da carta:\n> ");
             c.Tipo = Console.ReadLine() ?? "N/D";
 
-            Console.Write("Insira a descrição da carta:\n>");
+            Console.Write("Insira a descrição da carta:\n> ");
             c.Descricao = Console.ReadLine() ?? "N/D";
 
-            Console.Write("Insira o custo (em extenso) da carta:\n>");
+            Console.Write("Insira o custo (em extenso) da carta:\n> ");
             c.CustoMana = Console.ReadLine() ?? "N/D";
 
-            Console.Write("Insira o custo de mana convertido da carta:\n>");
+            Console.Write("Insira o custo de mana convertido da carta:\n> ");
             c.ValorMana = Convert.ToSingle(Console.ReadLine() ?? "0");
 
             string? res = "";
 
-            Console.Write("Insira o poder da carta:\n>");
+            Console.Write("Insira o poder da carta:\n> ");
             res = Console.ReadLine();
             if(!String.IsNullOrWhiteSpace(res))
                 c.Poder = Convert.ToSingle(res);
 
-            Console.Write("Insira a resistência da carta:\n>");
+            Console.Write("Insira a resistência da carta:\n> ");
             res = Console.ReadLine();
             if(!String.IsNullOrWhiteSpace(res))
                 c.Resistencia = Convert.ToSingle(res);
 
             Carta.Cores cor;
             while(true) {
-                Console.Write("Insira a cor da carta (Incolor/Branco/Azul/Preto/Vermelho/Verde/)\n> ");
+                Console.Write("Insira a cor da carta (Incolor/Branco/Azul/Preto/Vermelho/Verde)\n> ");
                 if(Enum.TryParse<Carta.Cores>(Console.ReadLine(), true, out cor)) break;
             }
             c.Cor = cor;
@@ -76,7 +76,7 @@ namespace Magic{
         }
 
         public string? GetCardName(){
-            Console.Write("Insira o nome da carta:\n>");
+            Console.Write("Insira o nome da carta:\n> ");
             return Console.ReadLine();
         }
 
@@ -85,27 +85,23 @@ namespace Magic{
         }
 
         public void MostrarCarta(Carta carta) {
-            if(carta.Poder != null && carta.Resistencia != null)
-                Console.WriteLine(
-                    $"{carta.Nome} ({carta.GID})\n" +
-                    $"{Enum.GetName<Carta.Cores>(carta.Cor)} - {carta.ValorMana} {carta.CustoMana}\n" +
-                    $"{carta.Tipo}" + 
-                    $"{carta.Descricao} -- ({carta.Poder}/{carta.Resistencia})\n" +
-                    $"Preco: ${carta.Preco}\n\n"
-                );
-            else
-                Console.WriteLine(
-                    $"{carta.Nome} ({carta.GID})\n" +
-                    $"{Enum.GetName<Carta.Cores>(carta.Cor)} - {carta.ValorMana} {carta.CustoMana}\n" +
-                    $"{carta.Tipo}" + 
-                    $"{carta.Descricao}\n" +
-                    $"Preco: ${carta.Preco}\n\n"
-                );
+            Console.WriteLine(
+                $"{carta.Nome}" + (!String.IsNullOrWhiteSpace(carta.GID) ? $" ({carta.GID})\n" : "\n") +
+                $"{Enum.GetName<Carta.Cores>(carta.Cor)} - {carta.ValorMana} {carta.CustoMana}\n" +
+                $"{carta.Tipo}\n" + 
+                $"{carta.Descricao}" + (carta.Poder != null ? $"({carta.Poder}/{carta.Resistencia})\n" : "\n") +
+                (carta.Preco != null && carta.Preco != 0 ? $"Preco: ${carta.Preco}\n" : "\n")
+            );
         }
 
         public void MostrarCabecalho(string title) {
 			Console.Clear();
 			Console.WriteLine("=== " + title + " ===\n");
+		}
+
+        public void Pause() {
+			Console.WriteLine("\nPressione Enter para continuar...");
+			Console.ReadLine();
 		}
     } 
 }

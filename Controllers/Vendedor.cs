@@ -49,6 +49,7 @@ namespace Magic {
             if (string.IsNullOrWhiteSpace(cartaJson))
             {
                 view.MostrarMensagem("Essa carta nao existe no sistema!");
+                view.Pause();
                 return;
             }
 
@@ -68,6 +69,7 @@ namespace Magic {
             string json = JsonSerializer.Serialize<Carta>(carta);
 
             estoque.Create(carta.GID, json);
+            view.Pause();
         }
 
         private void ListarCartas()
@@ -75,6 +77,7 @@ namespace Magic {
             string[] cartas = estoque.Read();
 
             view.MostrarLista(cartas);
+            view.Pause();
         }
 
         private void RemoverCarta()
@@ -87,6 +90,7 @@ namespace Magic {
                 view.MostrarMensagem("Carta removida do mercado!");
             else
                 view.MostrarMensagem("Carta nao encontrada!");
+            view.Pause();
         }
 
         private void EditarCarta() {
@@ -95,6 +99,7 @@ namespace Magic {
 
             if(cartaJSON == null) {
                 view.MostrarMensagem("Carta nao encontrada!");
+                view.Pause();
                 return;
             }
 
@@ -108,6 +113,7 @@ namespace Magic {
                 view.MostrarMensagem("Carta atualizada com sucesso!");
             else
                 view.MostrarMensagem("Houve um erro na atualizacao da carta.");
+            view.Pause();
         }
     }
 }

@@ -10,13 +10,13 @@ namespace Magic {
         };
         public MenuOpcoes Menu()
         {
-            MostrarCabecalho("Menu do Vendedor");
-            Console.WriteLine("1 - Colocar carta à venda");
-            Console.WriteLine("2 - Listar minhas cartas");
-            Console.WriteLine("3 - Remover carta");
-            Console.WriteLine("0 - Voltar");
+            MostrarCabecalho("Vendedor");
+            Console.WriteLine(" 1 - Colocar carta à venda");
+            Console.WriteLine(" 2 - Listar minhas cartas");
+            Console.WriteLine(" 3 - Remover carta");
+            Console.WriteLine(" 0 - Sair\n");
 
-            Console.Write("Opção: ");
+            Console.Write("> ");
 
             return (MenuOpcoes) Convert.ToInt32(Console.ReadLine());
         }
@@ -55,32 +55,33 @@ namespace Magic {
 			Console.WriteLine("=== " + title + " ===\n");
 		}
 
+        public void MostrarCarta(Carta carta) {
+            Console.WriteLine(
+                $"{carta.Nome}" + (!String.IsNullOrWhiteSpace(carta.GID) ? $" ({carta.GID})\n" : "\n") +
+                $"{Enum.GetName<Carta.Cores>(carta.Cor)} - {carta.ValorMana} {carta.CustoMana}\n" +
+                $"{carta.Tipo}\n" + 
+                $"{carta.Descricao}" + (carta.Poder != null ? $"({carta.Poder}/{carta.Resistencia})\n" : "\n") +
+                (carta.Preco != null && carta.Preco != 0 ? $"Preco: ${carta.Preco}\n" : "\n")
+            );
+        }
+
         public void MostrarLista(string[] cartas)
         {
             MostrarCabecalho("Cartas anunciadas");
+            if(cartas.Length <= 0) Console.WriteLine("Nao tem cartas a venda!");
 
             foreach(string carta_s in cartas) {
                 Carta? carta = JsonSerializer.Deserialize<Carta>(carta_s);
                 if(carta == null) continue;
 
-                if(carta.Poder != null && carta.Resistencia != null)
-                    Console.WriteLine(
-                        $"{carta.Nome} ({carta.GID})\n" +
-                        $"{Enum.GetName<Carta.Cores>(carta.Cor)} - {carta.ValorMana} {carta.CustoMana}\n" +
-                        $"{carta.Tipo}" + 
-                        $"{carta.Descricao} -- ({carta.Poder}/{carta.Resistencia})\n" +
-                        $"Preco: ${carta.Preco}\n\n"
-                    );
-                else
-                    Console.WriteLine(
-                        $"{carta.Nome} ({carta.GID})\n" +
-                        $"{Enum.GetName<Carta.Cores>(carta.Cor)} - {carta.ValorMana} {carta.CustoMana}\n" +
-                        $"{carta.Tipo}" + 
-                        $"{carta.Descricao}\n" +
-                        $"Preco: ${carta.Preco}\n\n"
-                    );
+                MostrarCarta(carta);
             }
         }
+
+        public void Pause() {
+			Console.WriteLine("\nPressione Enter para continuar...");
+			Console.ReadLine();
+		}
     }
 
 }

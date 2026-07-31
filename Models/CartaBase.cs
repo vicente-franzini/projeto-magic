@@ -81,15 +81,18 @@ namespace Magic {
         public bool Delete(string key) {
             try {
                 List<String> db = new List<string>();
+                int diff = 0;
 
                 foreach(string str in File.ReadAllText(path).Split('\n')) {
+                    diff++;
                     if(str.Split('§')[0] == key) continue;
 
+                    diff--;
                     db.Add(str);
                 }
 
                 File.WriteAllText(path, String.Join('\n', db));
-                return true;
+                return diff != 0;
             } catch (Exception e) {
                 Console.WriteLine(e);
                 return false;

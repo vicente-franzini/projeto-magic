@@ -35,6 +35,7 @@ namespace Magic {
         public void CreateCard(){
             Carta c = view.GetCardValues();
             CardDatabase.Create(c.Nome!, JsonSerializer.Serialize<Carta>(c));
+            view.Pause();
         }
 
         public void GetCard() {
@@ -44,17 +45,20 @@ namespace Magic {
             string? carta_s = CardDatabase.Read(nome_carta);
             if(String.IsNullOrWhiteSpace(carta_s)) {
                 view.MostrarMensagem("Nao existe um carta com esse nome! (Essa busca é sensitiva a capitalização)");
+                view.Pause();
                 return;
             }
 
             Carta carta = JsonSerializer.Deserialize<Carta>(carta_s) ?? new Carta();
             view.MostrarCarta(carta);
+            view.Pause();
         }
 
         public void ListCards(){
             string[] cartas = CardDatabase.Read();
             if(cartas.Length <= 0) {
                 view.MostrarMensagem("Nao tem nenhuma carta registrada no sistema!");
+                view.Pause();
                 return;
             }
 
@@ -64,11 +68,13 @@ namespace Magic {
 
                 view.MostrarCarta(carta);
             }
+            view.Pause();
         }
 
         public void UpdateCard(){
             Carta c = view.GetCardValues();
             CardDatabase.Update(c.Nome!, JsonSerializer.Serialize<Carta>(c));
+            view.Pause();
         }
 
         public void DeleteCard(){
@@ -80,6 +86,7 @@ namespace Magic {
             } else {
                 view.MostrarMensagem("Carta deletada com sucesso.");
             }
+            view.Pause();
         }
     }
 }

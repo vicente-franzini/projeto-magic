@@ -13,10 +13,10 @@ namespace Magic {
 		public MenuOptions MainMenu() {
 			MostrarCabecalho("Comprador");
 
-			Console.WriteLine("1 - Ver todas as cartas disponíveis");
-			Console.WriteLine("2 - Comprar uma carta");
-			Console.WriteLine("3 - Ver cartas compradas");
-			Console.WriteLine("4 - Voltar\n");
+			Console.WriteLine(" 1 - Ver todas as cartas disponíveis");
+			Console.WriteLine(" 2 - Comprar uma carta");
+			Console.WriteLine(" 3 - Ver cartas compradas");
+			Console.WriteLine(" 4 - Sair\n");
 			Console.Write("> ");
 
 			try {
@@ -53,22 +53,13 @@ namespace Magic {
         }
 
         public void MostrarCarta(Carta carta) {
-            if(carta.Poder != null && carta.Resistencia != null)
-                Console.WriteLine(
-                    $"{carta.Nome} ({carta.GID})\n" +
-                    $"{Enum.GetName<Carta.Cores>(carta.Cor)} - {carta.ValorMana} {carta.CustoMana}\n" +
-                    $"{carta.Tipo}" + 
-                    $"{carta.Descricao} -- ({carta.Poder}/{carta.Resistencia})\n" +
-                    $"Preco: ${carta.Preco}\n\n"
-                );
-            else
-                Console.WriteLine(
-                    $"{carta.Nome} ({carta.GID})\n" +
-                    $"{Enum.GetName<Carta.Cores>(carta.Cor)} - {carta.ValorMana} {carta.CustoMana}\n" +
-                    $"{carta.Tipo}" + 
-                    $"{carta.Descricao}\n" +
-                    $"Preco: ${carta.Preco}\n\n"
-                );
+            Console.WriteLine(
+                $"{carta.Nome}" + (!String.IsNullOrWhiteSpace(carta.GID) ? $" ({carta.GID})\n" : "\n") +
+                $"{Enum.GetName<Carta.Cores>(carta.Cor)} - {carta.ValorMana} {carta.CustoMana}\n" +
+                $"{carta.Tipo}\n" + 
+                $"{carta.Descricao}" + (carta.Poder != null ? $"({carta.Poder}/{carta.Resistencia})\n" : "\n") +
+                (carta.Preco != null && carta.Preco != 0 ? $"Preco: ${carta.Preco}\n" : "\n")
+            );
         }
 
         public void MostrarLista(string[] cartas)
