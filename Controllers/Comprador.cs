@@ -44,6 +44,9 @@ namespace Magic {
         private void BuyFlow() {
             view.MostrarCabecalho("Comprar carta");
 
+            var entries = estoque.Read();
+            if(entries.Length != 0) view.MostrarLista(entries);
+
             view.MostrarMensagem(
                 "Digite abaixo o ID da carta. Voce pode obter ele listando o estoque.\n" +
                 "Para voltar, aperte enter."
