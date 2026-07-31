@@ -6,8 +6,9 @@ namespace Magic {
         private AdmView view = new AdmView();
 
         public void Run() {
-            do{
-                AdmView.OperationOptions option = view.GetOperationOption();
+            AdmView.OperationOptions option = AdmView.OperationOptions.NULL;
+            do {
+                option = view.GetOperationOption();
 
                 switch(option) {
                     default:
@@ -28,32 +29,57 @@ namespace Magic {
                         DeleteCard();
                         break;
                 }
-            }while(option != AdmView.OperationOptions.EXIT);
+            } while (option != AdmView.OperationOptions.EXIT);
         }
 
         public void CreateCard(){
             Carta c = view.GetCardValues();
-            CardDatabase.Create(c.OutputValuesString());
+            CardDatabase.Create(c.Nome!, JsonSerializer.Serialize<Carta>(c));
         }
 
-        public void GetCard(){
-            view.PrintCard(CardDatabase.Read(view.GetCardName()));
+        public void GetCard() {
+            string? nome_carta = view.GetCardName();
+            if(String.IsNullOrWhiteSpace(nome_carta)) return;
+
+            string? carta_s = CardDatabase.Read(nome_carta);
+            if(String.IsNullOrWhiteSpace(carta_s)) {
+                view.MostrarMensagem("Nao existe um carta com esse nome! (Essa busca é sensitiva a capitalização)");
+                return;
+            }
+
+            Carta carta = JsonSerializer.Deserialize<Carta>(carta_s) ?? new Carta();
+            view.MostrarCarta(carta);
         }
 
         public void ListCards(){
-            Carta[] cartas = CardDatabase.Read();
-            foreach(Carta c in cartas){
-                view.PrintCard(c);
+            string[] cartas = CardDatabase.Read();
+            if(cartas.Length <= 0) {
+                view.MostrarMensagem("Nao tem nenhuma carta registrada no sistema!");
+                return;
+            }
+
+            foreach(string carta_s in cartas) {
+                Carta? carta = JsonSerializer.Deserialize<Carta>(carta_s);
+                if(carta == null) continue;
+
+                view.MostrarCarta(carta);
             }
         }
 
         public void UpdateCard(){
             Carta c = view.GetCardValues();
-            CardDatabase.Update(c.OutputValuesString());
+            CardDatabase.Update(c.Nome!, JsonSerializer.Serialize<Carta>(c));
         }
 
         public void DeleteCard(){
-            CardDatabase.Delete(view.GetCardName());
+            string? nome = view.GetCardName();
+            if(String.IsNullOrWhiteSpace(nome)) return;
+
+            if(!CardDatabase.Delete(nome)) {
+                view.MostrarMensagem("Houve um erro deletando essa carta.");
+            } else {
+                view.MostrarMensagem("Carta deletada com sucesso.");
+            }
         }
     }
 }
