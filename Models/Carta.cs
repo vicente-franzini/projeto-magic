@@ -10,8 +10,11 @@ namespace Magic {
         public string? Descricao { get; set; }
         public string? CustoMana { get; set; }
         public float   ValorMana { get; set; }
+        public float?  Poder { get; set; }
+        public float?  Resistencia { get; set; }
         public Cores   Cor { get; set; }
 
+        public string? GID { get; set; }
         public float?  Preco { get; set; }
     }
 
