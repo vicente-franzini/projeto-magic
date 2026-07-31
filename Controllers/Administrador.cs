@@ -32,8 +32,19 @@ namespace Magic {
             } while (option != AdmView.OperationOptions.EXIT);
         }
 
-        public void CreateCard(){
-            Carta c = view.GetCardValues();
+        public void CreateCard() {
+            string? nome = view.GetCardName();
+            if(String.IsNullOrWhiteSpace(nome)) {
+                view.MostrarMensagem("Digite um nome!");
+                view.Pause();
+                return;
+            } else if(!String.IsNullOrWhiteSpace(CardDatabase.Read(nome))) {
+                view.MostrarMensagem("Essa carta ja existe!");
+                view.Pause();
+                return;
+            }
+
+            Carta c = view.GetCardValues(nome!);
             CardDatabase.Create(c.Nome!, JsonSerializer.Serialize<Carta>(c));
             view.Pause();
         }

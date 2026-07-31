@@ -34,12 +34,11 @@ namespace Magic{
             return finalOption;
         }
 
-        public Carta GetCardValues(){
+        public Carta GetCardValues(string nome){
             MostrarCabecalho("Digite os valores da carta");
             Carta c = new Carta();
 
-            Console.Write("Insira o nome da carta:\n> ");
-            c.Nome = Console.ReadLine() ?? "N/D";
+            c.Nome = nome;
 
             Console.Write("Insira o tipo da carta:\n> ");
             c.Tipo = Console.ReadLine() ?? "N/D";
